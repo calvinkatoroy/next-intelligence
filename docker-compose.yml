@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  # Tor proxy service
+  tor:
+    image: dperson/torproxy
+    container_name: next-intelligence-tor
+    ports:
+      - "9050:9050"  # SOCKS proxy
+      - "9051:9051"  # Control port
+    environment:
+      - TOR_NewCircuitPeriod=30
+    networks:
+      - next-intelligence
+    restart: unless-stopped
+
+  # Backend API service
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: next-intelligence-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - TARGET_DOMAIN=${TARGET_DOMAIN:-ui.ac.id}
+      - MIN_RELEVANCE_SCORE=${MIN_RELEVANCE_SCORE:-0.3}
+      - REQUEST_DELAY=${REQUEST_DELAY:-2}
+      - TOR_PROXY_HTTP=socks5h://tor:9050
+      - TOR_PROXY_HTTPS=socks5h://tor:9050
+      - API_HOST=0.0.0.0
+      - API_PORT=8000
+    volumes:
+      - ./backend:/app
+      - scan_results:/app/scan_results
+    depends_on:
+      - tor
+    networks:
+      - next-intelligence
+    restart: unless-stopped
+
+  # Frontend service
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: next-intelligence-frontend
+    ports:
+      - "3000:80"
+    environment:
+      - VITE_API_URL=http://localhost:8000
+    depends_on:
+      - backend
+    networks:
+      - next-intelligence
+    restart: unless-stopped
+
+networks:
+  next-intelligence:
+    driver: bridge
+
+volumes:
+  scan_results:
+    driver: local

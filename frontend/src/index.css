@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -23,36 +25,41 @@
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
     --ring: 222.2 84% 4.9%;
-    --radius: 0.5rem;
+    --radius: 0.75rem;
     --chart-1: 12 76% 61%;
     --chart-2: 173 58% 39%;
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
+    
+    /* Nexzy Theme Colors */
+    --nexzy-cyan: 180 100% 50%;
+    --nexzy-green: 127 100% 50%;
+    --nexzy-dark: 0 0% 5.9%;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
+    --background: 0 0% 5.9%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 5.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 5.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 127 100% 50%;
+    --primary-foreground: 0 0% 0%;
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 180 100% 50%;
+    --accent-foreground: 0 0% 0%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 127 100% 50%;
+    --chart-1: 180 100% 50%;
+    --chart-2: 127 100% 50%;
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
@@ -62,8 +69,60 @@
 @layer base {
   * {
     @apply border-border;
+    font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   }
+  
+  .font-mono {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+  }
+  
   body {
     @apply bg-background text-foreground;
+    background-color: #0f0f0f;
+    overflow-x: hidden;
+  }
+  
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #0f0f0f;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #242424;
+    border-radius: 3px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(to bottom, #00F2FF, #00FF41);
+  }
+}
+
+@layer utilities {
+  /* Glassmorphism utilities */
+  .glass {
+    @apply backdrop-blur-xl bg-white/[0.02] border border-white/10;
+  }
+  
+  .glass-hover {
+    @apply hover:bg-white/[0.04] hover:border-primary/30;
+  }
+  
+  /* Gradient text */
+  .text-gradient-cyan-green {
+    @apply bg-gradient-to-br from-[#00F2FF] to-[#00FF41] bg-clip-text text-transparent;
+  }
+  
+  /* Glow effects */
+  .glow-cyan {
+    text-shadow: 0 0 20px rgba(0, 242, 255, 0.5);
+  }
+  
+  .glow-green {
+    text-shadow: 0 0 20px rgba(0, 255, 65, 0.5);
   }
 }
